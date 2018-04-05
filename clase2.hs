@@ -4,9 +4,8 @@ dispersion :: (Num a, Ord a) => a -> a-> a-> a
 dispersion d1 d2 d3 = max d1 (max d2 d3) - min d1 (min d2 d3)
 
 esCuadradoPerfecto nro = decimalPart (sqrt nro) == 0
-
-decimalPart :: Float -> Integer 
-decimalPart f = read (tail (tail (show (f)))) :: Integer
+ 
+decimalPart x = x - fromIntegral (truncate x)
 
 --Clase del 04/04/18
 
