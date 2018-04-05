@@ -5,7 +5,7 @@
 - Funciones definidas por partes (guardas).
 
 ## Clase 2
-- Composicón
+- Composición
 - Aplicación parcial
 
 ## Expertos en maquinitas
