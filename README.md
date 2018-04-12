@@ -11,7 +11,7 @@
 ## Clase 3
 - Pattern Matching
 - Listas, Tuplas y Data
-- Recursividad en listas y caso base
+- Recursividad con y sin listas
 
 ## Expertos en maquinitas
 
