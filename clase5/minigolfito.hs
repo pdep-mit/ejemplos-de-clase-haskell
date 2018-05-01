@@ -35,14 +35,29 @@ putter = undefined
 madera = undefined
 hierro = undefined
 
--- golpe :: Jugador -> Palo -> Tiro
 golpe = undefined
 
--- palos :: [Palo]
 palos = undefined
 
 -- Punto 2
--- Jugadores de ejemplo (para probar por consola)
-bart = UnJugador "Bart" "Homero" (Habilidad 25 60)
-todd = UnJugador "Todd" "Ned" (Habilidad 15 80)
-rafa = UnJugador "Rafa" "Gorgory" (Habilidad 10 1)
+hoyo = undefined
+laguna = undefined
+tunelConRampita = undefined
+
+puedeSuperar = undefined
+superarObstaculo = undefined
+
+-- Punto 3
+palosUtiles = undefined
+
+obstaculosConsecutivosSuperables = undefined
+
+paloMasUtil = undefined
+
+-- Punto 4
+quienesPierdenLaApuesta = undefined
+
+-- Implementación mentirosa de puntosGanados, que no importa cómo se resuelve
+puntosGanados _ (UnJugador "Bart" _ _) = 10
+puntosGanados _ (UnJugador "Todd" _ _) = 10
+puntosGanados _ (UnJugador "Rafa" _ _) = 1
