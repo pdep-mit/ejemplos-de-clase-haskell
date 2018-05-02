@@ -4,14 +4,16 @@ import Minigolfito
 import Test.Hspec
 
 -- Jugadores de ejemplo
-bart = UnJugador "Bart" "Homero" (Habilidad 25 60)
-todd = UnJugador "Todd" "Ned" (Habilidad 15 80)
-rafa = UnJugador "Rafa" "Gorgory" (Habilidad 10 1)
+bart = UnJugador "Bart" "Homero" (UnaHabilidad 25 60)
+todd = UnJugador "Todd" "Ned" (UnaHabilidad 15 80)
+rafa = UnJugador "Rafa" "Gorgory" (UnaHabilidad 10 1)
 
-habilidadDeEjemplo = Habilidad 5 30
+habilidadDeEjemplo = UnaHabilidad 5 30
 
 deberiaIncluirPalo :: [(Habilidad -> Tiro)] -> (Habilidad -> Tiro) -> Expectation
-deberiaIncluirPalo unosPalos unPalo = any (mismoPalo unPalo) unosPalos `shouldBe` True
+deberiaIncluirPalo unosPalos unPalo =
+  any (mismoPalo unPalo) unosPalos `shouldBe` True
+
 deberiaSerPalo :: (Habilidad -> Tiro) -> (Habilidad -> Tiro) -> Expectation
 deberiaSerPalo unPalo otroPalo = mismoPalo unPalo otroPalo `shouldBe` True
 
@@ -31,13 +33,13 @@ runTests = hspec $ do
       let tiroConHierro n = hierro n habilidadDeEjemplo
       it "El tiro generado por un hierro depende de su número de palo" $ do
         tiroConHierro 5
-          `shouldBe` (UnTiro {altura = 2, velocidad = 6, precision = 25})
+          `shouldBe` (UnTiro {altura = 2, velocidad = 25, precision = 6})
       it "La velocidad de un tiro generado por un hierro es mayor para hierros más grandes" $ do
         tiroConHierro 3 `shouldSatisfy` ((< velocidad (tiroConHierro 5)).velocidad)
       it "La precision de un tiro generado por un hierro es menor para hierros más grandes" $ do
         tiroConHierro 3 `shouldSatisfy` ((> precision (tiroConHierro 5)).precision)
       it "La altura de un tiro generado por un hierro es mayor para hierros de 4 en adelante" $ do
-        tiroConHierro 3 `shouldSatisfy` ((> altura (tiroConHierro 5)).altura)
+        tiroConHierro 3 `shouldSatisfy` ((< altura (tiroConHierro 5)).altura)
 
     it "El golpe es el tiro resultante de cuando una persona usa un palo" $ do
       golpe bart putter
@@ -96,12 +98,11 @@ runTests = hspec $ do
       palosUtiles bart hoyo `deberiaIncluirPalo` putter
     it "A Bart le es útil un hierro número 5 para superar una laguna de 2 metros" $ do
       palosUtiles bart (laguna 2) `deberiaIncluirPalo` (hierro 5)
-{- Descomentar cuando esté hecho, porque no compila por ambigüedad en el tipo
 
     it "Qué obstáculos consecutivos se puede superar con un tiro" $ do
       obstaculosConsecutivosSuperables (UnTiro {velocidad = 10, precision = 95, altura = 0})
         [tunelConRampita, tunelConRampita, hoyo] `shouldMatchList` [tunelConRampita, tunelConRampita]
--}
+
     it "Cuál es el palo más útil para superar obstáculos consecutivos" $ do
       paloMasUtil bart [tunelConRampita, tunelConRampita, hoyo] `deberiaSerPalo` putter
 
