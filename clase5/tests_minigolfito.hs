@@ -1,4 +1,4 @@
--- Enunciado:
+﻿-- Enunciado:
 -- https://docs.google.com/document/d/1DoAh_2jGWL5jPeM0K0lQ4V-8MEtqmKV1c3d9eqc9SJQ/
 import Minigolfito
 import Test.Hspec
@@ -88,7 +88,7 @@ runTests = hspec $ do
       it "Un tiro poco preciso no supera un túnel con rampita" $ do
         tiroQuePasa {precision = 90} `shouldNotSatisfy` puedeSuperar tunelConRampita
       it "Un tiro no rasante no supera un túnel con rampita" $ do
-        tiroQuePasa {altura = 0} `shouldNotSatisfy` puedeSuperar tunelConRampita
+        tiroQuePasa {altura = 10} `shouldNotSatisfy` puedeSuperar tunelConRampita
       it "Un tiro luego de superar un túnel con rampita es rasante, más veloz y muy preciso" $ do
         superarObstaculo tunelConRampita tiroQuePasa
           `shouldBe` UnTiro {precision = 100, altura = 0, velocidad = velocidad tiroQuePasa * 2}
