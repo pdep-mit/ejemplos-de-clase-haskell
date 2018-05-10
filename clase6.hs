@@ -1,3 +1,4 @@
+-- Enunciado: https://docs.google.com/document/d/1x74viDWXSV915OxiAV9W5xUw8AqelOUopTYHKzwPcmE
 data Depto = UnDepto {
     ambientes :: Int,
     superficie :: Int, 
