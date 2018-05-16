@@ -39,7 +39,7 @@ modificarSalud transformacion personaje =
 -- Punto 2
 esMalvado :: Personaje -> Bool 
 esMalvado personaje = 
-  (any (esDeTipo "Malvado") . elementos) personaje
+  (any (esDeTipo "Maldad") . elementos) personaje
 
 esDeTipo unTipo elemento = tipo elemento == unTipo
 
@@ -59,7 +59,7 @@ esEnemigoMortal personaje enemigo =
   (any (tieneAtaqueMortal personaje) . elementos) enemigo
 
 tieneAtaqueMortal personaje elemento =
-  danioQueProduce personaje elementos == salud personaje
+  danioQueProduce personaje elemento == salud personaje
 
 tieneAtaqueMortal' personaje elemento =
   (estaMuerto . ataque elemento) personaje
@@ -67,18 +67,48 @@ tieneAtaqueMortal' personaje elemento =
 estaMuerto  = ((==0).salud) 
 
 -- Punto 3
-concentracion = undefined
+concentracion :: Int -> Elemento
+concentracion nivelDeConcentracion =
+  UnElemento { tipo = "Magia",
+               ataque = id,
+               defensa = (!! nivelDeConcentracion) . iterate meditar }
+               --defensa = (\personaje -> iterate meditar personaje !! nivelDeConcentracion) }
+               --defensa = foldr1 (.) (replicate nivelDeConcentracion meditar) }
+esbirrosMalvados :: Int -> [Elemento]
+esbirrosMalvados cantidad = replicate cantidad unEsbirro
+unEsbirro :: Elemento
+unEsbirro = UnElemento "Maldad" (causarDanio 1) noHacerNada
 
-esbirrosMalvados = undefined
+noHacerNada = id
 
-jack = undefined
+jack :: Personaje
+jack = UnPersonaje {
+  nombre = "Jack",
+  salud = 300,
+  elementos = [concentracion 3, katanaMagica],
+  anioPresente = 200
+}
+
+katanaMagica = UnElemento "Magia" (causarDanio 1000) noHacerNada
 
 aku :: Int -> Float -> Personaje
 aku = undefined
 
 -- Punto 4
 luchar :: Personaje -> Personaje -> (Personaje, Personaje)
-luchar = undefined
+luchar atacante defensor
+ |estaMuerto atacante = (defensor, atacante)
+ |otherwise = luchar proximoAtacante proximoDefensor
+ where proximoAtacante = usarElementos ataque defensor (elementos atacante)
+       proximoDefensor = usarElementos defensa atacante (elementos atacante)
+
+
+usarElementos :: (Elemento -> Personaje -> Personaje) -> 
+  Personaje -> [Elemento] -> Personaje
+usarElementos funcion personaje elementos = foldl afectar personaje
+(map funcion elmentos)
+
+afectar personaje funcion = funcion personaje
 
 -- Punto 5 (inferencia)
 f x y z
