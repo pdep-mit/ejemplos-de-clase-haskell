@@ -1,3 +1,6 @@
+-- Interestelar
+-- Enunciado: https://docs.google.com/document/d/1ka4CJhZJBNtUOS7AbvTL1qTJnHGOIihdEp92mYfKzpo/
+
 -- Cada planeta tiene un nombre, una posición en el espacio y una relación que indica a cuánto tiempo terrestre equivale pasar un año allí.
 data Planeta = UnPlaneta String Posicion (Tiempo -> Tiempo)
 
