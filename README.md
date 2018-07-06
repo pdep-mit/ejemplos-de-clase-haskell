@@ -33,6 +33,6 @@
 ## Clase 8
 - [Ejercicio: Interestelar](https://docs.google.com/document/d/1ka4CJhZJBNtUOS7AbvTL1qTJnHGOIihdEp92mYfKzpo/)
 
-## Extra: Expertos en maquinitas
+## Extra: Expertos en maquinitas (Clase de 2017)
 
 Ejercicio avanzado, apuntado al diseño: [Enunciado](https://drive.google.com/open?id=1y4SR2N6vIMKcXkZflbT_O_3qXBTol0SPLbz0cTQLxIk), [Solucion](https://github.com/pdep-mit/pdep-mit-resueltos/blob/master/Expertos_en_maquinitas-clase_dise%C3%B1osa.hs)
