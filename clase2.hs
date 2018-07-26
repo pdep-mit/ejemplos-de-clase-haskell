@@ -72,6 +72,23 @@ comboJuanizado' combo = (descontar 20.agregar "remolacha".agregar "zanahoria".ag
 -- (.) SI! La composición es una función, más adelante volveremos sobre esto 
 --     y les diremos de qué tipo es es menos mágico de lo que parece
 
+{-
+Queremos modelar dos combos y una promoción:
+- dobleCuarto: es un cuarto de libra al que se le agrega una “carne” y un “cheddar”.
+- bigPdeP: es un dobleCuarto pero agrandado y con “curry”.
+- delDia: es una promoción que puede aplicar a cualquier combo, le agrega “papas” y después le reduce 30% el precio.
+-}
+dobleCuarto :: Int
+dobleCuarto = (agregar "cheddar" . agregar "carne") cuartoDeLibra
+
+bigPdeP :: Int
+bigPdeP = (agregar "curry" . agrandar) dobleCuarto
+
+delDia :: Int -> Int
+delDia = descontar 30 . agregar "papas"
+
+-----------------------------------
+
 --Otras versiones de funciones definidas en esta clase usando aplicación parcial y composición:
 descontar' porcentaje precio = ((precio -).(`div` 100).(precio  *)) porcentaje
 
