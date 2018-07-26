@@ -1,6 +1,6 @@
 -- Ejercicios resueltos aplicando lo visto hasta la clase pasada
 
--- dispersion: toma los tres mediciones y devuelve la diferencia entre la más alta y la más baja
+-- dispersion: toma tres mediciones y devuelve la diferencia entre la más alta y la más baja
 dispersion :: (Num a, Ord a) => a -> a-> a-> a
 dispersion d1 d2 d3 = max d1 (max d2 d3) - min d1 (min d2 d3)
 
