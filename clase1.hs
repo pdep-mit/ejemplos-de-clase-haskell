@@ -1,65 +1,47 @@
--- Primeros ejemplos, se pone en evidencia que no importa el orden de las declaraciones
-triple x = 3 * x
+doble :: Int -> Int
+doble numero = 2 * numero
 
-sextuple x = doble (triple x)
+esMultiploDe multiplo numero = 
+  mod multiplo numero == 0
 
-doble x = 2 * x
+esMayor :: Int -> Bool
+esMayor edad = edad >= 18
 
-----------
--- Ejemplo básico de guardas, importa el orden de las condiciones y el tabulado
-valorAbsoluto x
-  | x >= 0 = x
-  | otherwise = -x
+saludar :: String -> String
+saludar nombre = "Hola " ++ nombre
 
-----------------------------
--- Ejercicios más complejos
-----------------------------
+xorAire :: Bool -> Bool -> Bool
+xorAire p q = p && not q || not p && q
+xorAgua :: Bool -> Bool -> Bool
+xorAgua p q = p /= q
+xorTierra :: Bool -> Bool -> Bool
+xorTierra b1 b2 =
+  not (b1 == b2)
 
--- Diferentes soluciones para la función xor
-xor b1 b2 = not b1 == b2
 
--- Esta solución necesita que se explicite el tipo para acotar el dominio
--- De lo contrario el tipo es Eq a => a -> a -> a, permitiendo consultar xor' 3 5
-xor' :: Bool -> Bool -> Bool
-xor' b1 b2 = b1 /= b2
 
--- Este no es un buen uso de guardas, evitar su uso para retornar booleanos
-xor'' b1 b2
-  | b1 && not b2 = True
-  | b2 && not b1 = True
-  | otherwise = False
+fLoca1 :: Int -> Bool -> Bool
+fLoca1 a b = a > 5 || b
 
--- Esta alternativa es mejor que xor''
-xor''' b1 b2 = b1 && not b2 || b2 && not b1
+fLoca2 :: a -> Int -> Int
+fLoca2 a b = b + 1
 
------------
+fLoca3 :: Int -> Int -> Bool
+fLoca3 a b = min a 10 > b
 
-tipoDeNota :: Int -> String
-tipoDeNota nota
-  | notaPromocion nota = "Promociona"
-  | notaAprobada nota = "Aprobado"
-  | esNotaValida nota = "Gracias, vuelva prontos"
+fLoca4 :: a -> b -> b
+fLoca4 n m = m
 
-notaAprobada nota = esNotaValida nota && nota >= 6
-notaPromocion nota = esNotaValida nota && nota >= 8
+intermedio :: Int -> Int -> Int -> Int
+intermedio a b c = 
+  (min a b) `max` (min b c) `max` (min a c) 
 
-esNotaValida nota = nota >= 1 && nota <= 10
+intermedio' :: Int -> Int -> Int -> Int
+intermedio' a b c = 
+  sumaTotal - minimo - maximo
+  where
+    sumaTotal = a + b + c
+    minimo = (min a (min b c))
+    maximo = (max a (max b c))
 
------------
-
--- un año es bisiesto si es multiplo de 4 pero no de 100, o si es multiplo de 400
-esBisiesto :: Int -> Bool
-esBisiesto anio 
-  = esMultiplo anio 4 && 
-     not (esMultiplo anio 100) ||
-       esMultiplo anio 400
-
--- Otro ejemplo de mal uso de guardas
-esBisiesto' anio
-  | esMultiplo anio 4 && 
-     not (esMultiplo anio 100) = True
-  | esMultiplo anio 400 = True
-  | otherwise = False
-
--- Esta abstracción ayuda a que sean más entendibles ambas soluciones
-esMultiplo x y = mod x y == 0
+numeroMagico = 10
