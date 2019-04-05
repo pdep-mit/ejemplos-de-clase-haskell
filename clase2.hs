@@ -1,11 +1,10 @@
 --Desafíos del inicio de clase:
 
 --Ya se cuenta con la función esMultiploDe
---Definir esBisiesto (si es multiplo de 4 y no 
---de 100 o si es multiplo de 400)
+--Definir esBisiesto (si es multiplo de 4 y no de 100 o si es multiplo de 400)
 
---esBisiestoAire :: Int -> Bool
---esBisiestoAire anio = esMultiploDe 4 anio && not (esMultiploDe 100 anio) || esMultiploDe 400 anio
+--esBisiesto :: Int -> Bool
+--esBisiesto anio = esMultiploDe 4 anio && not (esMultiploDe 100 anio) || esMultiploDe 400 anio
 
 -- Considerando length :: String -> Int
 -- 1) inferir el tipo de f x y z = length y *2 <= x || z
