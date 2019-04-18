@@ -11,5 +11,9 @@
 - Inmutabilidad
 - Typeclasses
 
+## Clase 4
+- Composición
+- Aplicación parcial
+
 ## Ejemplos de años anteriores
 - [2018](https://github.com/pdep-mit/ejemplos-de-clase-haskell/tree/ejemplos-2018)
