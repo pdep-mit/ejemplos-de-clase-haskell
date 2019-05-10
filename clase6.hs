@@ -5,8 +5,8 @@ data Meta = UnaMeta {
 
 data Personaje = UnPersonaje {
     nombre :: String, nivelIntoxicacion :: Float,
-    aguante :: Float, dosisDeMeta :: [Meta], 
-    dinero :: Dinero 
+    aguante :: Float, dosisDeMeta :: [Meta],
+    dinero :: Dinero
 } deriving (Show, Eq)
 
 type Dinero = Float
@@ -42,7 +42,7 @@ estaDrogado personaje =
     nivelIntoxicacion personaje >= aguante personaje
 
 plusDeAguante :: Personaje -> Meta -> Float
-plusDeAguante personaje dosisDeMeta 
+plusDeAguante personaje dosisDeMeta
     | estaDrogado personaje = pureza dosisDeMeta
     | otherwise = plusDeIntoxicacion dosisDeMeta
 
@@ -74,7 +74,7 @@ pasarDiasEnRehabilitacion personaje =
                  ((<3) . nivelIntoxicacion)
                  personaje
 
-diaDeRehabilitacion :: Personaje -> Personaje    
+diaDeRehabilitacion :: Personaje -> Personaje
 diaDeRehabilitacion personaje =
     conNivelIntoxicacion (nivelIntoxicacion personaje - 1) .
     conAguante (aguante personaje * 0.75) $ personaje
@@ -91,7 +91,7 @@ perderDosisDeMeta personaje = conDosisDeMeta [] personaje
 altoNarco :: Personaje -> Bool
 altoNarco personaje =
     100000 < (dinero personaje +
-              loQuePodriaConseguirVendiendo (dosisDeMeta personaje))
+              loQuePodriaConseguirVendiendo personaje)
     &&
     5 <= kilosDeLaBuena (dosisDeMeta personaje)
 
@@ -104,8 +104,8 @@ gramosAKilos gramos = gramos / 1000
 esDeLaBuena :: Meta -> Bool
 esDeLaBuena unaMeta = pureza unaMeta > 0.95
 
-loQuePodriaConseguirVendiendo :: [Meta] -> Dinero
-loQuePodriaConseguirVendiendo = sum . map valorDeLaDosis
+loQuePodriaConseguirVendiendo :: Personaje -> Dinero
+loQuePodriaConseguirVendiendo = sum . map valorDeLaDosis . dosisDeMeta
 
 valorDeLaDosis :: Meta -> Dinero
 valorDeLaDosis (UnaMeta pureza peso) =
@@ -117,8 +117,8 @@ elegirProveedor :: Ord a =>
                    [Personaje] ->
                    Personaje
 elegirProveedor ponderacion criterio proveedores =
-    foldr1 (mayorSegun ponderacion)
-           (soloTienenMetaQue criterio proveedores)
+    (foldr1 (mayorSegun ponderacion) .
+           soloTienenMetaQue criterio) proveedores
 
 soloTienenMetaQue :: (Meta -> Bool) -> [Personaje] -> [Personaje]
 soloTienenMetaQue criterio = filter (soloTieneMetaQue criterio)
@@ -148,3 +148,11 @@ walterWhite = UnPersonaje { nombre = "walter",
 
 jesseDrogado :: Personaje
 jesseDrogado = aumentarNivelIntoxicacion 5 jesse
+
+-- Ejemplos de uso de elegirProveedor
+
+-- que más plata pueda conseguir, teniendo sólo meta de la buena:
+-- elegirProveedor loQuePodriaConseguirVendiendo esDeLaBuena [walterWhite, jesse, jesseDrogado]
+
+-- que más dosis tenga, teniendo sólo meta cuyo poder intoxicador sea mayor a 100
+-- elegirProveedor (length.dosisDeMeta) ((< 100).plusDeIntoxicacion) [walterWhite, jesse, jesseDrogado]
