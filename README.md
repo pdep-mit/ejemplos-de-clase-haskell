@@ -25,6 +25,10 @@
   - Composición
   - Aplicación parcial
   - Orden Superior
+  
+## Clase 7
+- Ejercicio [Gravity Falls: Las Rarezas](https://docs.google.com/document/d/1ivhqJIWGanstr324ElRY6lev0b0UN-QN3kcYFH9wqMs/edit)
+  - Modelado con funciones
 
 ## Ejemplos de años anteriores
 - [2018](https://github.com/pdep-mit/ejemplos-de-clase-haskell/tree/ejemplos-2018)
