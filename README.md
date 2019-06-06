@@ -34,5 +34,10 @@
 - [Lazy y Eager evaluation](http://wiki.uqbar.org/wiki/articles/estrategias-de-evaluacion.html)
 - [Typeclasses](http://wiki.uqbar.org/wiki/articles/typeclasses.html)
 
+## Clase 9
+- Simulacro [Interestelar](https://docs.google.com/document/d/1ka4CJhZJBNtUOS7AbvTL1qTJnHGOIihdEp92mYfKzpo)
+
+---
+
 ## Ejemplos de años anteriores
 - [2018](https://github.com/pdep-mit/ejemplos-de-clase-haskell/tree/ejemplos-2018)
