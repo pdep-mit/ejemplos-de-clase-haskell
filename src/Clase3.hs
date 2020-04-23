@@ -62,3 +62,36 @@ pianoAjustable' delta midi = (piano . ajustarTono delta) midi
 -- ESTO TAMBIÉN!
 pianoAjustable'' :: Int -> Midi -> Audio
 pianoAjustable'' delta = piano . ajustarTono delta
+
+---------------------
+
+f1 a b = ((+ a).(*2)) b
+
+f1' a b = (+ a).(*2) $ b
+
+f1'' a = (+ a).(*2)
+
+----------------
+
+g a = (a *).(+ a)
+
+-------------
+
+h :: Ord a => a -> a -> a
+h a b = max a b
+
+h' :: Ord a => a -> a -> a
+h' a = max a
+
+h'' :: Ord a => a -> a -> a
+h'' = max
+
+---------
+i :: Num a => a -> a -> a
+i x y = (y +).(*7) $ x
+
+noI y = (y +).(*7)
+
+type Carta = (Int, String)
+esAs :: Carta -> Bool
+esAs = (==1).fst
