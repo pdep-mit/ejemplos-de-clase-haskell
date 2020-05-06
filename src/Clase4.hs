@@ -24,6 +24,8 @@ adolescente'' = estaEntre 12 18.edad
 estaEntre :: Ord a => a -> a -> a -> Bool
 estaEntre inferior superior valor = valor >= inferior && valor <= superior
 
+-- Currificación: lo que hace Haskell por atrás, la base para poder aplicar parcialmente
+
 estaEntre' :: Ord a => a -> (a -> (a -> Bool))
 estaEntre' = (\inferior -> (\superior -> (\valor -> valor >= inferior && valor <= superior)))
 
@@ -124,23 +126,73 @@ todosPares' = todosCumplen even
 todosAprobados' :: [Estudiante] -> Bool
 todosAprobados' = todosCumplen aprobo
 
+-- y agregamos un tercer uso directamente con todosCumplen
+todosCortos :: [String] -> Bool
+todosCortos = todosCumplen ((<10).length)
+
 -- Claramente no necesitábamos definir todosCumplen
 todosCumplen' :: (a -> Bool) -> [a] -> Bool
 todosCumplen' = all
 
+-- Ejemplito con filter
 cantidadDePares = length . filter even
 
 ----- Fold
+
+{-
+Implementaciones de referencia de length y sum
+
+length :: [a] -> Int
+length [] = 0
+length (x:xs) = 1 + length xs
+
+sum :: Num a => [a] -> a
+sum [] = 0
+sum (x:xs) = x + sum xs
+-}
 
 productoria :: Num a => [a] -> a
 productoria [] = 1
 productoria (x:xs) = x * productoria xs
 
-productoria' :: Num a => [a] -> a
-productoria' numeros = foldr (*) 1 numeros
+-- Cómo quedan definidas con foldr
 
 length' :: [a] -> Int
 length' lista = foldr (\_ x -> x+1) 0 lista
+
+sum' :: Num a => [a] -> a
+sum' numeros = foldr (+) 0 numeros
+
+productoria' :: Num a => [a] -> a
+productoria' numeros = foldr (*) 1 numeros
+
+{-
+Implementación de referencia de foldr
+
+foldr :: (b -> a -> a) -> a -> [b] -> a
+foldr f valor [] = valor
+foldr f valor (x:xs) = f x (foldr f valor xs)
+-}
+
+-- Ejemplo distinto: maximum
+
+{-
+Implementación de referencia de maximum
+
+maximum :: Ord a => [a] -> a
+maximum [x] = x
+maximum (x:xs) = x `max`(maximum xs)
+
+Implementación de referencia de foldr1
+
+foldr1 :: (a -> a -> a) -> [a] -> a
+foldr1 f lista = foldr f (last lista) (init lista)
+-}
+
+maximum' :: Ord a => [a] -> a
+maximum' = foldr1 max
+
+
 
 ----------------------------
 --- Práctica info nutricional
