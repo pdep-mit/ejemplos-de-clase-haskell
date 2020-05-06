@@ -71,19 +71,17 @@ False
 
 -}
 
--- hacerNVeces :: ??? -> ??? -> ??? -> ???
-hacerNVeces = undefined
+hacerNVeces :: Int -> (a -> a) -> a -> a
+hacerNVeces 0 f valor = valor
+hacerNVeces n f valor | n > 0 = hacerNVeces (n-1) f (f valor)
+-- hacerNVeces 3 (++ "hola") ""
+-- hacerNVeces 2 (++ "hola") "hola"
+-- hacerNVeces 1 (++ "hola") "holahola"
+-- hacerNVeces 0 (++ "hola") "holaholahola"
 
-
-
-
-
-
-
-
-
-
-
+-- Estos no son usos válidos, el dominio está correctamente acotado:
+-- hacerNVeces (-2) (++ "hola") ""
+-- hacerNVeces 4.5 (++ "hola") ""
 
 -----------------------------
 -- Parte 2: listas
