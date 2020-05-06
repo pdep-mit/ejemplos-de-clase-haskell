@@ -203,12 +203,31 @@ pocoCalorico = (<=100).calorias
 
 {-
 Armar consultas para saber:
-- de entre los alimentos que no son poco calóricos,
-si hay alguno que tenga más proteínas que grasas
+- de entre los alimentos que no son poco calóricos,  <-- filtrado
+si hay alguno que tenga más proteínas que grasas:  <-- any
+  [InformacionNutricional] -> Bool
+
+> any (\infoNutricional -> proteinas infoNutricional > grasas infoNutricional)
+    . filter (not.pocoCalorico) $ infosNutricionales
+True
 
 - qué alimento tiene mayor valor calórico, más carbohidratos,
 mayor nombre… teniendo en cuenta que ya tenemos esta función:
 elDeMayor :: Ord b => (a -> b) -> a -> a -> a
+
+[InformacionNutricional] -> InformacionNutricional
+
+[banana, manzana, garbanzos] -> garbanzos
+
+> foldr1 (elDeMayor calorias) infosNutricionales
+Info {alimento = "Garbanzos", calorias = 269, grasas = 4.2, carbohidratos = 45.0, proteinas = 14.5}
+
+> foldr1 (elDeMayor carbohidratos) infosNutricionales
+Info {alimento = "Garbanzos", calorias = 269, grasas = 4.2, carbohidratos = 45.0, proteinas = 14.5}
+
+> foldr1 (elDeMayor alimento) infosNutricionales
+Info {alimento = "Yogurt", calorias = 149, grasas = 8.0, carbohidratos = 11.4, proteinas = 8.5}
+
 -}
 
 ------- Modelo y datos de prueba
@@ -232,3 +251,7 @@ infosNutricionales = [
   infoManzana, infoBanana, infoPera,
   infoEspinaca, infoYogurt, infoGarbanzos
   ]
+
+-- implementación de referencia de map que hicimos en clase
+map' f [] = []
+map' f (x:xs) = f x : map' f xs
