@@ -5,8 +5,20 @@
 - Pattern matching y guardas.
 - Intro a recursividad.
 
+## Clase 2
+- Datas
+- Tuplas
+
+## Clase 3
+- Aplicación parcial
+- Composición
+
+## Clase 4
+- Orden superior
+- Listas
+
 ---
 
 ## Ejemplos de años anteriores
-- [2018](https://github.com/pdep-mit/ejemplos-de-clase-haskell/tree/ejemplos-2018)
+- [2018](https://github.com/pdep-mit/ejemplos-de-clase-haskell/tree/2018)
 - [2019](https://github.com/pdep-mit/ejemplos-de-clase-haskell/tree/2019)
