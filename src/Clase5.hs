@@ -81,7 +81,6 @@ cumpleRango f numero1 numero2 = between numero1 numero2 . f
 -- type Requisito = Depto -> Bool
 -- type Busqueda = [Requisito]
 cumpleBusqueda :: Depto -> Busqueda -> Bool
---cumpleBusqueda :: Busqueda -> Depto -> Bool
 cumpleBusqueda depto busqueda = all (cumpleRequisito depto) busqueda
 cumpleRequisito :: Depto -> Requisito -> Bool
 cumpleRequisito depto requisito = requisito depto
