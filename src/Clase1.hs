@@ -18,7 +18,8 @@ conjuncion :: Bool -> Bool -> Bool
 conjuncion True True = True
 conjuncion _ _ = False
 
-factorial :: Int -> Int
+-- Cambié el tipo Int a Integer, para que funcione bien con números grandes
+factorial :: Integer -> Integer
 factorial 0 = 1
 factorial n
   | n > 0 = n * factorial (n-1)
