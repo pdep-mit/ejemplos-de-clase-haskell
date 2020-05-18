@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b82e891def82a0dd5c4649edcbc30ad6eb2161b2ff15110d9f0f6410d0fbd0dc
+-- hash: 0076d7ce70585b5aabe437bd6dde3aeedea46d6a248608020489912c880e51ef
 
 name:           stack-test
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       Clase3
       Clase4
       Clase5
+      Clase6
   other-modules:
       Paths_stack_test
   hs-source-dirs:
