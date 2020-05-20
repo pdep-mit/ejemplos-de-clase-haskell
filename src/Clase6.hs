@@ -30,7 +30,8 @@ A cada secuela se le debe agregar el número de película de la saga.
 -}
 
 saga :: String -> [String]
-saga = undefined
+saga titulo = titulo : map (\n -> titulo ++ " " ++ show n) [2 ..]
+saga' titulo = titulo : map ((titulo ++).(" " ++).show) [2 ..]
 
 
 
@@ -46,5 +47,8 @@ Queremos saber el elemento natural del enésimo avatar.
 -}
 
 type ElementoNatural = String
-enesimoAvatar :: Int -> [ElementoNatural]
-enesimoAvatar = undefined
+enesimoAvatar :: Int -> ElementoNatural
+enesimoAvatar n = cicloDelAvatar !! (n-1)
+
+cicloDelAvatar :: [ElementoNatural]
+cicloDelAvatar = cycle ["Tierra", "Fuego", "Aire", "Agua"]
