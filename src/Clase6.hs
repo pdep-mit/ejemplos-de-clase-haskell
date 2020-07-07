@@ -33,12 +33,6 @@ saga :: String -> [String]
 saga titulo = titulo : map (\n -> titulo ++ " " ++ show n) [2 ..]
 saga' titulo = titulo : map ((titulo ++).(" " ++).show) [2 ..]
 
-
-
-
-
-
-
 {-
 Enésimo Avatar:
 Sabiendo que existe una secuencia cíclica de elementos relacionada
@@ -52,3 +46,15 @@ enesimoAvatar n = cicloDelAvatar !! (n-1)
 
 cicloDelAvatar :: [ElementoNatural]
 cicloDelAvatar = cycle ["Tierra", "Fuego", "Aire", "Agua"]
+
+-------------
+
+-- Implementaciones de referencia de foldr y foldl
+
+foldr' :: (b -> a -> a) -> a -> [b] -> a
+foldr' f valor []     = valor
+foldr' f valor (x:xs) = x `f` (foldr' f valor xs)
+
+foldl' :: (a -> b -> a) -> a -> [b] -> a
+foldl' f valor []     = valor
+foldl' f valor (x:xs) = foldl' f (valor `f` x) xs
