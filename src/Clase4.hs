@@ -72,16 +72,9 @@ False
 -}
 
 hacerNVeces :: Int -> (a -> a) -> a -> a
-hacerNVeces 0 f valor = valor
-hacerNVeces n f valor | n > 0 = hacerNVeces (n-1) f (f valor)
--- hacerNVeces 3 (++ "hola") ""
--- hacerNVeces 2 (++ "hola") "hola"
--- hacerNVeces 1 (++ "hola") "holahola"
--- hacerNVeces 0 (++ "hola") "holaholahola"
-
--- Estos no son usos válidos, el dominio está correctamente acotado:
--- hacerNVeces (-2) (++ "hola") ""
--- hacerNVeces 4.5 (++ "hola") ""
+hacerNVeces 0 _ valor = valor
+hacerNVeces n funcion valor
+  | n > 0 = hacerNVeces (n-1) funcion (funcion valor)
 
 -----------------------------
 -- Parte 2: listas
@@ -196,40 +189,6 @@ maximum' = foldr1 max
 --- Práctica info nutricional
 ----------------------------
 
-alimentosPocoCaloricos :: [InformacionNutricional] -> [Alimento]
-alimentosPocoCaloricos = map alimento . filter pocoCalorico
-
-pocoCalorico = (<=100).calorias
-
-{-
-Armar consultas para saber:
-- de entre los alimentos que no son poco calóricos,  <-- filtrado
-si hay alguno que tenga más proteínas que grasas:  <-- any
-  [InformacionNutricional] -> Bool
-
-> any (\infoNutricional -> proteinas infoNutricional > grasas infoNutricional)
-    . filter (not.pocoCalorico) $ infosNutricionales
-True
-
-- qué alimento tiene mayor valor calórico, más carbohidratos,
-mayor nombre… teniendo en cuenta que ya tenemos esta función:
-elDeMayor :: Ord b => (a -> b) -> a -> a -> a
-
-[InformacionNutricional] -> InformacionNutricional
-
-[banana, manzana, garbanzos] -> garbanzos
-
-> foldr1 (elDeMayor calorias) infosNutricionales
-Info {alimento = "Garbanzos", calorias = 269, grasas = 4.2, carbohidratos = 45.0, proteinas = 14.5}
-
-> foldr1 (elDeMayor carbohidratos) infosNutricionales
-Info {alimento = "Garbanzos", calorias = 269, grasas = 4.2, carbohidratos = 45.0, proteinas = 14.5}
-
-> foldr1 (elDeMayor alimento) infosNutricionales
-Info {alimento = "Yogurt", calorias = 149, grasas = 8.0, carbohidratos = 11.4, proteinas = 8.5}
-
--}
-
 ------- Modelo y datos de prueba
 
 data InformacionNutricional = Info {
@@ -252,6 +211,43 @@ infosNutricionales = [
   infoEspinaca, infoYogurt, infoGarbanzos
   ]
 
--- implementación de referencia de map que hicimos en clase
-map' f [] = []
-map' f (x:xs) = f x : map' f xs
+
+alimentosPocoCaloricos :: [InformacionNutricional] -> [Alimento]
+alimentosPocoCaloricos = map alimento . filter pocoCalorico
+
+pocoCalorico = (<=100).calorias
+
+{-
+
+data InformacionNutricional = Info {
+  alimento :: Alimento,
+  calorias :: Int,
+  grasas :: Float,
+  carbohidratos :: Float,
+  proteinas :: Float
+} deriving (Show, Eq)
+
+Armar consultas para saber:
+- de entre los alimentos que no son poco calóricos,
+si hay alguno que tenga más proteínas que grasas:
+
+> any (\infoNutricional -> proteinas infoNutricional > grasas infoNutricional).filter (not.pocoCalorico) $ infosNutricionales
+
+- qué alimento tiene mayor valor calórico, más carbohidratos,
+mayor nombre… teniendo en cuenta que ya tenemos esta función:
+elDeMayor :: Ord b => (a -> b) -> a -> a -> a
+
+> foldl1 (elDeMayor calorias) infosNutricionales
+Info {alimento = "Garbanzos", calorias = 269, grasas = 4.2, carbohidratos = 45.0, proteinas = 14.5}
+
+> foldl1 (elDeMayor carbohidratos) infosNutricionales
+Info {alimento = "Garbanzos", calorias = 269, grasas = 4.2, carbohidratos = 45.0, proteinas = 14.5}
+
+> foldl1 (elDeMayor alimento) infosNutricionales
+Info {alimento = "Yogurt", calorias = 149, grasas = 8.0, carbohidratos = 11.4, proteinas = 8.5}
+-}
+
+-- Si ven un tipo como este:
+ -- Foldable t => (a -> a -> a) -> t a -> a
+-- Interprétenlo como:
+ -- (a -> a -> a) -> [a] -> a
