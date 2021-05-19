@@ -23,7 +23,7 @@ data Persona = Persona {
 ordenarSegun :: (a -> a -> Bool) -> [a] -> [a]
 ordenarSegun _ [] = []
 ordenarSegun criterio (x:xs) =
-  (ordenarSegun criterio . filter (not . criterio x)) xs 
+  (ordenarSegun criterio . filter (not . criterio x)) xs
   ++ [x] ++
   (ordenarSegun criterio . filter (criterio x)) xs
 
@@ -51,15 +51,15 @@ mayor' f valor1 = (>) (f valor1) . (f) -- Lo mismo que arriba con notación poin
 
 
 mayor :: Ord b => (a -> b) -> a -> a -> Bool
-mayor f valor1 valor2 = f valor1 > f valor2 
+mayor f valor1 valor2 = f valor1 > f valor2
 
 menor :: Ord b => (a -> b) -> a -> a -> Bool
-menor f valor1 valor2 = f valor1 < f valor2 
+menor f valor1 valor2 = f valor1 < f valor2
 
 
 
 
-{- 
+{-
 Mostrar un ejemplo de cómo se usaría una de estas funciones para ordenar una lista de strings en base a su longitud usando ordenarSegun.
 -}
 
@@ -103,19 +103,61 @@ cumpleRango f minimo maximo = between minimo maximo . f
 
 -- Definir la función cumpleBusqueda que se cumple si todos los requisitos
 -- de una búsqueda se verifican para un departamento dado.
+-- type Busqueda = [Requisito]
+
+cumpleBusqueda :: Busqueda -> Depto -> Bool
+
+cumpleBusqueda busqueda depto = all (\requisito -> requisito depto) busqueda
+cumpleBusqueda'' busqueda depto = all ($ depto) busqueda
+cumpleBusqueda' busqueda depto = all (cumpleRequisito depto) busqueda
+
+cumpleRequisito :: Depto -> Requisito -> Bool
+cumpleRequisito depto requisito = requisito depto
+
 
 {-
 Definir la función buscar que a partir de una búsqueda, un criterio de ordenamiento y una lista de departamentos retorne todos aquellos que cumplen con la búsqueda ordenados en base al criterio recibido.
 -}
 
+-- ordenarSegun :: (a -> a -> Bool) -> [a] -> [a]
+buscar :: (Depto -> Depto -> Bool) -> Busqueda -> [Depto] -> [Depto]
+buscar criterioDeOrdenamiento busqueda deptos = (ordenarSegun criterioDeOrdenamiento.filter (cumpleBusqueda busqueda)) deptos
+buscar' criterioDeOrdenamiento busqueda = ordenarSegun criterioDeOrdenamiento.filter (cumpleBusqueda busqueda)
 
 {-
 Mostrar un ejemplo de uso de buscar para obtener los departamentos de ejemplo, ordenado por mayor superficie, que cumplan con:
-Encontrarse en Recoleta o Palermo 
-Ser de 1 o 2 ambientes 
-Alquilarse a menos de $6000 por mes
+- Encontrarse en Recoleta o Palermo
+- Ser de 1 o 2 ambientes
+- Alquilarse a menos de $6000 por mes
 -}
+busquedaDeEjemplo :: Busqueda
+busquedaDeEjemplo = [cumpleRango ambientes 1 2, ubicadoEn ["Palermo", "Recoleta"], (<6000).precio ]
+{-
+> buscar (mayor superficie) busquedaDeEjemplo deptosDeEjemplo
+[Depto {ambientes = 2, superficie = 50, precio = 5000, barrio = "Palermo"},Depto {ambientes = 1, superficie = 45, precio = 5500, barrio = "Recoleta"}]
+-}
+
 
 {-
 Definir la función mailsDePersonasInteresadas que a partir de un departamento y una lista de personas retorne los mails de las personas que tienen alguna búsqueda que se cumpla para el departamento dado.
 -}
+
+
+{-
+data Persona = Persona {
+    mail :: Mail,
+    busquedas :: [Busqueda]
+} deriving Show
+-}
+
+--cumpleBusqueda :: Busqueda -> Depto -> Bool
+personasDeEjemplo :: [Persona]
+personasDeEjemplo = [Persona "pepito@gmail.com" [busquedaDeEjemplo, [(>70).superficie]], Persona "juanita@gmail.com" []]
+
+mailsDePersonasInteresadas :: Depto -> [Persona] -> [Mail]
+mailsDePersonasInteresadas depto personas = map mail (filter (estaInteresada depto) personas)
+
+-------------------------- [Persona] -> [Mail] ---- [Persona] -> [Persona]
+mailsDePersonasInteresadas' depto = map mail  .  filter (estaInteresada depto)
+
+estaInteresada depto persona = any (flip cumpleBusqueda depto) . busquedas $ persona
